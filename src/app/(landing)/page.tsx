@@ -62,7 +62,7 @@ export default function Home() {
           {[
             { price: "RM250", label1: "NEW", label2: "FRIENDS" },
             { price: "RM300", label1: "YM", label2: "MEMBER" },
-            { price: "RM350", label1: "DOUBLE", label2: "TICKET*" }
+            { price: "RM550", label1: "DOUBLE", label2: "TICKET*" }
           ].map((item, index) => (
             <motion.div
               key={item.price}
