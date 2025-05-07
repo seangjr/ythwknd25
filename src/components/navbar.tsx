@@ -7,7 +7,7 @@ export default function Navbar() {
       <Link href="/">
         <Image
           src="/assets/sm-masthead.svg"
-          alt="Logo"
+          alt="Logo for YTHWKND 2025"
           className="w-[200] md:w-[250]"
           width={250}
           height={100}
