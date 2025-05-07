@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Check, Copy, Loader2, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface TeamInviteModalProps {
   isOpen: boolean;
@@ -97,8 +98,10 @@ export function TeamInviteModal({
   // Copy invite link to clipboard
   const copyInviteLink = () => {
     if (inviteLink) {
-      navigator.clipboard.writeText(inviteLink);
+      const message = `Join my team "${teamName}" for YTHWKND! Click the link to register:\n${inviteLink}`;
+      navigator.clipboard.writeText(message);
       setCopied(true);
+      toast.success("Invite link copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
     }
   };
@@ -112,8 +115,10 @@ export function TeamInviteModal({
           text: `Join my team "${teamName}" for YTHWKND! Click the link to register:`,
           url: inviteLink,
         });
+        toast.success("Invite link shared successfully!");
       } catch (error) {
         console.error("Error sharing:", error);
+        toast.error("Failed to share invite link");
       }
     } else {
       copyInviteLink();
@@ -192,7 +197,7 @@ export function TeamInviteModal({
           ) : (
             <Button
               onClick={generateInviteLink}
-              className="w-full bg-amber-500 text-black hover:bg-amber-600 "
+              className="bg-amber-500 text-black hover:bg-amber-600 font-rumble text-xl"
               disabled={isGenerating}
             >
               {isGenerating
