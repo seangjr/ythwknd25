@@ -27,6 +27,17 @@ import { Footer } from "./footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
+// Add getHeroImagePath function
+const getHeroImagePath = (heroId: string, teamId: number) => {
+  const heroObj = CONSTANTS.HEROES.find(h => h.id === heroId);
+  if (!heroObj) return "/placeholder.svg";
+  const heroName = heroObj.name.split(" ")[0];
+  const heroImage = CONSTANTS.HERO_IMAGE_PATHS.find(
+    h => h.teamId === teamId && h.hero === heroName
+  );
+  return heroImage?.path || "/placeholder.svg";
+};
+
 // Form schema
 const formSchema = z
   .object({
@@ -329,10 +340,6 @@ export function MultiStepRegistrationForm({
       await fetchTeamMembers();
     } finally {
       setHeroesRefreshing(false);
-      // Show a brief animation even if the data loads quickly
-      setTimeout(() => {
-        setHeroesRefreshing(false);
-      }, 500);
     }
   };
 
@@ -1496,14 +1503,14 @@ export function MultiStepRegistrationForm({
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.4, delay: 1.1 }}
-                  className="w-12 h-12 rounded-full overflow-hidden mr-3"
+                  className="relative w-12 h-12 rounded-full overflow-hidden mr-3"
                 >
                   <Image
-                    src={heroDetails?.icon || "/placeholder.svg"}
+                    src={getHeroImagePath(selectedHero, teamId)}
                     alt={heroDetails?.name || "Hero"}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain"
+                    sizes="48px"
                     priority={false}
                     loading="lazy"
                   />
@@ -1568,14 +1575,14 @@ export function MultiStepRegistrationForm({
                           initial={{ scale: 0.8 }}
                           animate={{ scale: 1 }}
                           transition={{ duration: 0.3, delay: 1.6 + index * 0.1 }}
-                          className="w-10 h-10 rounded-full overflow-hidden mr-3"
+                          className="relative w-10 h-10 rounded-full overflow-hidden mr-3"
                         >
                           <Image
-                            src={hero.icon || "/placeholder.svg"}
+                            src={getHeroImagePath(hero.id, teamId)}
                             alt={hero.name}
                             fill
-                            className={`object-cover ${isTaken ? "grayscale" : ""}`}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className={`object-contain ${isTaken ? "grayscale" : ""}`}
+                            sizes="40px"
                             priority={false}
                             loading="lazy"
                           />
@@ -1713,10 +1720,11 @@ export function MultiStepRegistrationForm({
                   transition={{ duration: 0.4, delay: 2.5 }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  className="flex justify-center w-full"
                 >
                   <Button
                     onClick={handleRegenerateInviteLink}
-                    className="w-fit self-center bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble"
+                    className="w-fit bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble"
                   >
                     Try Again
                   </Button>
@@ -1728,11 +1736,12 @@ export function MultiStepRegistrationForm({
                   transition={{ duration: 0.4, delay: 2.5 }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  className="flex justify-center w-full"
                 >
                   <Button
                     onClick={copyInviteLink}
                     disabled={!inviteLink || inviteLinkLoading}
-                    className="w-fit self-center bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble"
+                    className="w-fit bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble"
                   >
                     {copied ? "Copied!" : "Copy Link"}
                   </Button>
