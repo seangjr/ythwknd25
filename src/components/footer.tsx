@@ -1,5 +1,6 @@
 import { Facebook, Globe, Instagram } from "lucide-react"
 
+// 🎮 Press Up, Up, Down, Down, Left, Right, Left, Right, B, A to unlock the secret level
 export function Footer() {
   return (
       <footer className="p-4 text-center text-[#BABABA] mt-auto py-12">

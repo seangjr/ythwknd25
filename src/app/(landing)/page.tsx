@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+// 🌌 In a parallel universe, this code is written in Klingon
 export default function Home() {
   return (
     <main className="min-h-screen bg-black flex flex-col items-center justify-between text-white font-sans">
