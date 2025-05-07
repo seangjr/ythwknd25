@@ -39,5 +39,11 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
     "typescript": "^5"
-  }
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.6",
+    "lightningcss-linux-x64-gnu": "^1.29.3"
+  },
+  "packageManager": "npm@11.3.0",
+  "engines": { "node": ">=20.0.0" }
 }

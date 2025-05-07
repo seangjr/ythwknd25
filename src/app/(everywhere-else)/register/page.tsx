@@ -423,7 +423,7 @@ export default function Registration() {
                             isAvailable && handleRegisterClick(hero.id, team.id)
                           }
                           className={cn(
-                            "w-16 h-16 rounded-full md:rounded-lg md:w-full md:h-36 overflow-hidden mx-auto relative",
+                            "w-16 h-16 rounded-full sm:rounded-lg sm:w-full sm:h-36 overflow-hidden mx-auto relative",
                             isAvailable
                               ? "cursor-pointer hover:opacity-80 transition-opacity duration-300"
                               : "opacity-50 cursor-not-allowed grayscale",
