@@ -1,0 +1,8 @@
+/* styles/fonts.css */
+@font-face {
+    font-family: "Rumble Brave";
+    src: url("/fonts/rumble-brave.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* ensures text is visible during load */
+}
