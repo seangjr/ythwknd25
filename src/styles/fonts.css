@@ -5,4 +5,12 @@
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* ensures text is visible during load */
+    unicode-range: U+000-5FF; /* Latin character set */
+}
+
+/* Preload the font */
+@layer base {
+    :root {
+        --font-rumble: "Rumble Brave", system-ui, sans-serif;
+    }
 }

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Share2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface Registration {
   id: number;
@@ -429,10 +430,14 @@ export default function Registration() {
                           disabled={!isAvailable}
                           aria-label={`Select ${hero.name} hero from ${team.name}`}
                         >
-                          <img
+                          <Image
                             src={getHeroImagePath(hero.id, team.id)}
                             alt={hero.name}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            priority={false}
+                            loading="lazy"
                           />
                         </motion.button>
                       </motion.div>

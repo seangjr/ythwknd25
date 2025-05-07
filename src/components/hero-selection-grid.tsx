@@ -3,6 +3,7 @@
 import { CONSTANTS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import Image from "next/image";
 
 interface HeroSelectionGridProps {
   teamMembers: any[];
@@ -63,10 +64,14 @@ export function HeroSelectionGrid({
                   : "opacity-50 cursor-not-allowed grayscale",
               )}
             >
-              <img
+              <Image
                 src={getHeroImagePath(hero.id, teamId)}
                 alt={hero.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false}
+                loading="lazy"
               />
             </div>
             {/* <p

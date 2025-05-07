@@ -25,6 +25,7 @@ import Navbar from "./navbar";
 import { toast } from "sonner";
 import { Footer } from "./footer";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 // Form schema
 const formSchema = z
@@ -1497,10 +1498,14 @@ export function MultiStepRegistrationForm({
                   transition={{ duration: 0.4, delay: 1.1 }}
                   className="w-12 h-12 rounded-full overflow-hidden mr-3"
                 >
-                  <img
+                  <Image
                     src={heroDetails?.icon || "/placeholder.svg"}
                     alt={heroDetails?.name || "Hero"}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={false}
+                    loading="lazy"
                   />
                 </motion.div>
                 <span className="text-[#BABABA] font-medium">
@@ -1565,12 +1570,14 @@ export function MultiStepRegistrationForm({
                           transition={{ duration: 0.3, delay: 1.6 + index * 0.1 }}
                           className="w-10 h-10 rounded-full overflow-hidden mr-3"
                         >
-                          <img
+                          <Image
                             src={hero.icon || "/placeholder.svg"}
                             alt={hero.name}
-                            className={`w-full h-full object-cover ${
-                              isTaken ? "grayscale" : ""
-                            }`}
+                            fill
+                            className={`object-cover ${isTaken ? "grayscale" : ""}`}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            priority={false}
+                            loading="lazy"
                           />
                         </motion.div>
 

@@ -3,6 +3,7 @@
 import { CONSTANTS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
+import Image from "next/image";
 
 interface HeroDetailsProps {
   heroId: string | null;
@@ -38,11 +39,14 @@ export function HeroDetails({ heroId, className, teamId }: HeroDetailsProps) {
   return (
     <div className={cn("bg-[#18181b] rounded-2xl overflow-hidden shadow-lg border border-gray-800", className)}>
       <div className="relative w-full h-56 bg-black flex items-center justify-center">
-        <img
+        <Image
           src={getHeroImagePath(heroId, teamId)}
           alt={heroDetails.name}
-          className="w-full h-full object-cover"
-          style={{ maxWidth: '100%' }}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={false}
+          loading="lazy"
         />
         <div className="pointer-events-none absolute inset-0" style={{background: 'linear-gradient(to bottom, rgba(24,24,27,0) 60%, rgba(24,24,27,1) 100%)'}} />
       </div>
