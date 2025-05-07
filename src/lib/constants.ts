@@ -37,9 +37,9 @@ export const CONSTANTS = { SITE_TITLE: "YTHWKND",
       name: "Charlie Mayfield",
       icon: "/charlie-mayfield.png",
       class: "THE TWIN TANKER",
-      perk: "DETENTION SEAL",
+      perk: "SEAL OF DETENTION",
       description:
-        "Silences your enemy's perks with afterschool doom.",
+        "Cancels any perks your enemy has chosen.",
     },
     {
       id: "kai",
