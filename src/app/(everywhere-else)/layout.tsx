@@ -6,9 +6,9 @@ import "@/styles/fonts.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "YTHWKND 2025 by YMFGAKL",
-  description: "Join us for YTHWKND 2025, an exciting event by YMFGAKL. Experience innovation, networking, and inspiration.",
-  keywords: ["YTHWKND", "YMFGAKL", "event", "2025", "networking", "innovation"],
+  title: "YTHWKND 2025: The Multiverse of Mystery",
+  description: "When Eric Veed mysteriously vanishes, five classmates set out to investigate. Their search leads them to a strange beach where reality begins to unravel. Join the battle to save the multiverse.",
+  keywords: ["YTHWKND", "YMFGAKL", "multiverse", "mystery", "sci-fi", "adventure", "2025", "high school event"],
   authors: [{ name: "YMFGAKL" }],
   creator: "YMFGAKL",
   publisher: "YMFGAKL",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://ythwknd25.ymfgakl.com"),
   openGraph: {
-    title: "YTHWKND 2025 by YMFGAKL",
-    description: "Join us for YTHWKND 2025, an exciting event by YMFGAKL. Experience innovation, networking, and inspiration.",
+    title: "YTHWKND 2025: The Multiverse of Mystery",
+    description: "When Eric Veed mysteriously vanishes, five classmates set out to investigate. Their search leads them to a strange beach where reality begins to unravel. Join the battle to save the multiverse.",
     url: "https://ythwknd25.ymfgakl.com",
     siteName: "YTHWKND 2025",
     images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
         url: "/landing.png",
         width: 1200,
         height: 630,
-        alt: "YTHWKND 2025",
+        alt: "YTHWKND 2025: The Multiverse of Mystery",
       },
     ],
     locale: "en_US",
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "YTHWKND 2025 by YMFGAKL",
-    description: "Join us for YTHWKND 2025, an exciting event by YMFGAKL. Experience innovation, networking, and inspiration.",
+    title: "YTHWKND 2025: The Multiverse of Mystery",
+    description: "When Eric Veed mysteriously vanishes, five classmates set out to investigate. Their search leads them to a strange beach where reality begins to unravel. Join the battle to save the multiverse.",
     images: ["/landing.png"],
   },
   icons: {
