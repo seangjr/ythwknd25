@@ -84,7 +84,7 @@ export async function GET(request: Request) {
     }
 
     // Check if the invite has expired
-    if (new Date(data.expires_at) < new Date()) {
+    if (new Date(data.expires_at as string) < new Date()) {
       return NextResponse.json(
         { error: "Invite has expired" },
         { status: 410 },
@@ -95,7 +95,7 @@ export async function GET(request: Request) {
     const { data: teamData, error: teamError } = await supabase
       .from("teams")
       .select("id, name, color")
-      .eq("id", data.team_id)
+      .eq("id", data.team_id as number)
       .single();
 
     if (teamError) {

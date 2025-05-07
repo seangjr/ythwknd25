@@ -254,7 +254,7 @@ export async function POST(request: Request) {
         {
           error:
             "Failed to create registration: " +
-            (error?.message || "Unknown error"),
+            ((error as { message?: string })?.message || "Unknown error"),
         },
         { status: 500 },
       );

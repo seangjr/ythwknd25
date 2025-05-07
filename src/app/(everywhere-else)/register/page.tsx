@@ -42,8 +42,8 @@ export default function Registration() {
     name: string;
     color: string;
   } | null>(null);
-  const [totalHeroes, setTotalHeroes] = useState(100);
-  const [availableHeroes, setAvailableHeroes] = useState(100);
+  const [availableHeroes, setAvailableHeroes] = useState<number>(0);
+  const [totalHeroes, setTotalHeroes] = useState<number>(0);
   const [clickedHeroData, setClickedHeroData] = useState<{
     heroId: string;
     teamId: number;
@@ -59,9 +59,7 @@ export default function Registration() {
         // Fetch registrations
         const { data: regData, error: regError } = await supabase
           .from("registrations")
-          .select(
-            "id, line_number, group_number, nickname, hero_id, team_id, full_name, age",
-          )
+          .select("*")
           .order("line_number");
 
         if (regError) throw regError;
@@ -74,9 +72,9 @@ export default function Registration() {
 
         if (heroError) throw heroError;
 
-        setRegistrations(regData || []);
+        setRegistrations((regData as unknown as Registration[]) || []);
         setHeroAvailability(
-          heroData.map((h) => ({
+          (heroData as { hero_id: string; team_id: number; is_available: boolean }[]).map((h) => ({
             heroId: h.hero_id,
             teamId: h.team_id,
             isAvailable: h.is_available,
@@ -84,7 +82,7 @@ export default function Registration() {
         );
 
         // Calculate available heroes
-        const available = heroData.filter((h) => h.is_available).length;
+        const available = (heroData as { is_available: boolean }[]).filter((h) => h.is_available).length;
         setAvailableHeroes(available);
         setTotalHeroes(heroData.length);
       } catch (error) {
@@ -303,11 +301,11 @@ export default function Registration() {
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 1.2 }}
               className={cn(
-                availableHeroes !== 100
+                availableHeroes < totalHeroes
                   ? "text-amber-500"
-                  : availableHeroes === 0
+                  : availableHeroes <= 0
                     ? "text-red-500"
-                    : "",
+                    : "text-green-500",
               )}
             >
               {availableHeroes}

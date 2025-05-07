@@ -38,7 +38,7 @@ export async function GET(request: Request) {
     }
 
     // Check if the invite has expired
-    if (data && new Date(data.expires_at) < new Date()) {
+    if (data && new Date(data.expires_at as string) < new Date()) {
       return NextResponse.json({});
     }
 

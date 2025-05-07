@@ -66,7 +66,7 @@ export function CharacterSelectionScreen({
           .order("line_number");
 
         if (error) throw error;
-        setTeamMembers(data || []);
+        setTeamMembers((data as TeamMember[]) || []);
       } catch (error) {
         console.error("Error fetching team members:", error);
       } finally {

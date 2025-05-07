@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         sheetsSyncFailed: true,
-        error: error.message,
+        error: (error as { message?: string })?.message || "Unknown error",
       });
     }
   } catch (error) {
