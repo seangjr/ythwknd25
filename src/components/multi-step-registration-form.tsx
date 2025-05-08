@@ -86,11 +86,6 @@ const formSchema = z
     otherEventSource: z.string().optional(),
     invitedByFriend: z.string().optional(),
 
-    // Church Details (for Christians attending other churches)
-    // churchName: z.string().optional(),
-    // pastorName: z.string().optional(),
-    // churchRole: z.string().optional(),
-
     // Emergency Contact
     emergencyContactName: z
       .string()
@@ -472,6 +467,8 @@ export function MultiStepRegistrationForm({
   // Handle back
   const handleBack = () => {
     if (registrationComplete) {
+      // Refresh team members data before closing
+      fetchTeamMembers();
       onClose();
       return;
     }

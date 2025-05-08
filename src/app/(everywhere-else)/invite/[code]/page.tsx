@@ -95,73 +95,75 @@ export default function TeamInvitePage() {
   }, [inviteCode]);
 
   // Fetch available lines and heroes for this team
-  useEffect(() => {
-    async function fetchAvailableData() {
-      if (!invite) return;
+  const fetchAvailableData = async () => {
+    if (!invite) return;
 
-      try {
-        setIsHeroesLoaded(false);
-        const supabase = createClient();
+    try {
+      setIsHeroesLoaded(false);
+      const supabase = createClient();
 
-        // Get all registrations for this team
-        const { data: registrations } = await supabase
-          .from("registrations")
-          .select("line_number, nickname, hero_id, instagram_handle")
-          .eq("team_id", invite.teamId);
+      // Get all registrations for this team
+      const { data: registrations } = await supabase
+        .from("registrations")
+        .select("line_number, nickname, hero_id, instagram_handle")
+        .eq("team_id", invite.teamId);
 
-        setTeamMembers(registrations || []);
+      setTeamMembers(registrations || []);
 
-        // Calculate which lines are taken
-        const takenLines = registrations?.map((r) => r.line_number) || [];
+      // Calculate which lines are taken
+      const takenLines = registrations?.map((r) => r.line_number) || [];
 
-        // Calculate available lines (5 lines per team)
-        const teamIndex = invite.teamId - 1;
-        const startLine = teamIndex * 5 + 1;
-        const availLines = Array.from(
-          { length: 5 },
-          (_, i) => startLine + i,
-        ).filter((line) => !takenLines.includes(line));
+      // Calculate available lines (5 lines per team)
+      const teamIndex = invite.teamId - 1;
+      const startLine = teamIndex * 5 + 1;
+      const availLines = Array.from(
+        { length: 5 },
+        (_, i) => startLine + i,
+      ).filter((line) => !takenLines.includes(line));
 
-        setAvailableLines(availLines);
+      setAvailableLines(availLines);
 
-        // Get hero availability
-        const { data: heroData } = await supabase
-          .from("hero_availability")
-          .select("hero_id, is_available")
-          .eq("team_id", invite.teamId);
+      // Get hero availability
+      const { data: heroData } = await supabase
+        .from("hero_availability")
+        .select("hero_id, is_available")
+        .eq("team_id", invite.teamId);
 
-        const availableHeroes = heroData?.map((h) => ({
-          heroId: h.hero_id as string,
-          isAvailable: h.is_available as boolean,
-        })) || [];
+      const availableHeroes = heroData?.map((h) => ({
+        heroId: h.hero_id as string,
+        isAvailable: h.is_available as boolean,
+      })) || [];
 
-        setAvailableHeroes(availableHeroes);
+      setAvailableHeroes(availableHeroes);
 
-        // Set the first available hero as default
-        const firstAvailableHero = CONSTANTS.HEROES.find(hero => 
-          !registrations?.some(r => r.hero_id === hero.id)
+      // Set the first available hero as default
+      const firstAvailableHero = CONSTANTS.HEROES.find(hero => 
+        !registrations?.some(r => r.hero_id === hero.id)
+      );
+      setSelectedHero(firstAvailableHero?.id || null);
+
+      // Get total hero count and available hero count
+      const { data: allHeroData } = await supabase
+        .from("hero_availability")
+        .select("hero_id, is_available");
+
+      if (allHeroData) {
+        setTotalHeroes(allHeroData.length);
+        setAvailableHeroCount(
+          allHeroData.filter((h) => h.is_available).length,
         );
-        setSelectedHero(firstAvailableHero?.id || null);
-
-        // Get total hero count and available hero count
-        const { data: allHeroData } = await supabase
-          .from("hero_availability")
-          .select("hero_id, is_available");
-
-        if (allHeroData) {
-          setTotalHeroes(allHeroData.length);
-          setAvailableHeroCount(
-            allHeroData.filter((h) => h.is_available).length,
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching available data:", error);
-      } finally {
-        setIsHeroesLoaded(true);
       }
+    } catch (error) {
+      console.error("Error fetching available data:", error);
+    } finally {
+      setIsHeroesLoaded(true);
     }
+  };
 
-    fetchAvailableData();
+  useEffect(() => {
+    if (invite) {
+      fetchAvailableData();
+    }
   }, [invite]);
 
   // Handle hero selection
@@ -198,6 +200,8 @@ export default function TeamInvitePage() {
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedLine(null);
+    // Refresh team members data when modal is closed
+    fetchAvailableData();
   };
 
   // Handle successful registration
