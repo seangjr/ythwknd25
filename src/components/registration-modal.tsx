@@ -107,7 +107,7 @@ export function RegistrationModal({
     useState<boolean>(true);
   const [preselectedHeroHandled, setPreselectedHeroHandled] =
     useState<boolean>(false);
-  const { isConnecting, connectionError, handleFetchError } = useDatabaseConnection();
+  const { isConnecting, connectionError, handleFetchError, retryConnection } = useDatabaseConnection();
 
   // Set preselected hero when it changes
   useEffect(() => {
@@ -243,7 +243,9 @@ export function RegistrationModal({
     <>
       <LoadingOverlay 
         isVisible={isConnecting} 
-        message={connectionError || "Connecting to database..."} 
+        message={connectionError || "Connecting to database..."}
+        showRetry={!!connectionError}
+        onRetry={retryConnection}
       />
       <MultiStepRegistrationForm
         isOpen={isOpen}
@@ -254,7 +256,7 @@ export function RegistrationModal({
         selectedHero={selectedHero}
         onSubmit={handleFormSubmit}
         isSubmitting={isSubmitting}
-        onBackToCharacterSelection={handleBackToCharacterSelection} // New prop for going back
+        onBackToCharacterSelection={handleBackToCharacterSelection}
         error={error}
       />
     </>

@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 interface UseDatabaseConnectionReturn {
   isConnecting: boolean;
   connectionError: string | null;
-  retryConnection: () => Promise<void>;
+  retryConnection: () => Promise<boolean>;
   handleFetchError: (error: unknown) => Promise<boolean>;
 }
 
@@ -14,7 +14,7 @@ export function useDatabaseConnection(): UseDatabaseConnectionReturn {
   const MAX_RETRIES = 3;
   const RETRY_DELAY = 2000; // 2 seconds
 
-  const retryConnection = useCallback(async () => {
+  const retryConnection = useCallback(async (): Promise<boolean> => {
     setIsConnecting(true);
     setConnectionError(null);
 

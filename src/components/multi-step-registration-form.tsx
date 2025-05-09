@@ -16,6 +16,7 @@ import {
   Facebook,
   Globe,
   Instagram,
+  Link,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -1469,8 +1470,8 @@ export function MultiStepRegistrationForm({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button className="w-full bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble mb-8 cursor-pointer">
-                  Payment &amp; Parental Consent Form
+                <Button asChild className="w-full bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble mb-8 cursor-pointer">
+                  <Link href="https://forms.gle/qv5ze5FUQkGZo3bd6" target="_blank" rel="noopener noreferrer">Payment &amp; Parental Consent Form</Link>
                 </Button>
               </motion.div>
             </motion.div>
