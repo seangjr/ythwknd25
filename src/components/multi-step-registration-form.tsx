@@ -1476,7 +1476,6 @@ export function MultiStepRegistrationForm({
                     href="https://forms.gle/qv5ze5FUQkGZo3bd6" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:text-blue-600 underline"
                   >
                     Payment &amp; Parental Consent Form
                   </a>

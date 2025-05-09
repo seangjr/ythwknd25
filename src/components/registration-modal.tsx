@@ -211,6 +211,46 @@ export function RegistrationModal({
       }
 
       const responseData = await response.json();
+      
+      // Sync to Google Sheets
+      try {
+        const sheetsResponse = await fetch("/api/sheets-sync", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            lineNumber,
+            groupNumber,
+            email: data.email,
+            fullName: data.fullName,
+            age: data.age,
+            gender: data.gender,
+            nricPassport: data.nricPassport,
+            contactNumber: data.contactNumber,
+            instagramHandle: data.instagramHandle,
+            schoolName: data.schoolName,
+            ymMember: data.ymMember === "Yes",
+            cgLeader,
+            heroId: selectedHero,
+            emergencyContactName: data.emergencyContactName,
+            emergencyContactRelationship: data.emergencyContactRelationship,
+            emergencyContactPhone: data.emergencyContactPhone,
+            emergencyContactEmail: data.emergencyContactEmail,
+            isChristian: data.isChristian,
+            eventSource: data.eventSource,
+            otherEventSource: data.otherEventSource,
+            invitedByFriend: data.invitedByFriend,
+          }),
+        });
+
+        if (!sheetsResponse.ok) {
+          console.error("Failed to sync with Google Sheets:", await sheetsResponse.json());
+        }
+      } catch (error) {
+        console.error("Error syncing with Google Sheets:", error);
+      }
+
       if (onSuccess) {
         onSuccess(responseData);
       }
