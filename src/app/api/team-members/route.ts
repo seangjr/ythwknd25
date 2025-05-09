@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase";
+import { createClient, handleDatabaseError } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -25,19 +25,21 @@ export async function GET(request: Request) {
       .order("line_number");
 
     if (error) {
+      const errorResponse = handleDatabaseError(error);
       console.error("Error fetching team members:", error);
       return NextResponse.json(
-        { error: "Failed to fetch team members" },
-        { status: 500 },
+        { error: errorResponse.message },
+        { status: errorResponse.status },
       );
     }
 
     return NextResponse.json({ members: data || [] });
   } catch (error) {
+    const errorResponse = handleDatabaseError(error);
     console.error("Error in team members API:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+      { error: errorResponse.message },
+      { status: errorResponse.status },
     );
   }
 }

@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://ythwknd25.ymfgakl.com"),
+  metadataBase: new URL("https://ythwknd.ymfgakl.com"),
   openGraph: {
     title: "YTHWKND 2025: The Multiverse of Mystery",
     description: "When Eric Veed mysteriously vanishes, five classmates set out to investigate. Their search leads them to a strange beach where reality begins to unravel. Join the battle to save the multiverse.",
-    url: "https://ythwknd25.ymfgakl.com",
+    url: "https://ythwknd.ymfgakl.com",
     siteName: "YTHWKND 2025",
     images: [
       {

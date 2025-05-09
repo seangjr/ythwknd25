@@ -4,6 +4,8 @@ import { CharacterSelectionScreen } from "@/components/character-selection-scree
 import { MultiStepRegistrationForm } from "@/components/multi-step-registration-form";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { LoadingOverlay } from "./loading-overlay";
+import { useDatabaseConnection } from "@/hooks/use-database-connection";
 
 // Form schema
 const formSchema = z
@@ -105,6 +107,7 @@ export function RegistrationModal({
     useState<boolean>(true);
   const [preselectedHeroHandled, setPreselectedHeroHandled] =
     useState<boolean>(false);
+  const { isConnecting, connectionError, handleFetchError } = useDatabaseConnection();
 
   // Set preselected hero when it changes
   useEffect(() => {
@@ -148,6 +151,7 @@ export function RegistrationModal({
       setPreselectedHeroHandled(false);
     }
   }, [isOpen, preselectedHero]);
+
   const handleFormSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     setError(null);
@@ -186,97 +190,33 @@ export function RegistrationModal({
           emergencyContactRelationship: data.emergencyContactRelationship,
           emergencyContactPhone: data.emergencyContactPhone,
           emergencyContactEmail: data.emergencyContactEmail,
-          // Additional fields for religious affiliation
           isChristian: data.isChristian,
           eventSource: data.eventSource,
           otherEventSource: data.otherEventSource,
           invitedByFriend: data.invitedByFriend,
-          // Church details
-          // churchName: data.churchName,
-          // pastorName: data.pastorName,
-          // churchRole: data.churchRole,
         }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Registration failed");
+        
+        // Handle any fetch error
+        const recovered = await handleFetchError(errorData);
+        if (!recovered) {
+          throw new Error(errorData.error || "Registration failed");
+        }
+        
+        // If we recovered, retry the registration
+        return handleFormSubmit(data);
       }
 
       const responseData = await response.json();
-
-      // Sync with Google Sheets
-      try {
-        const sheetResponse = await fetch("/api/sheets-sync", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            lineNumber,
-            groupNumber,
-            email: data.email,
-            fullName: data.fullName,
-            nickname: data.fullName,
-            age: data.age,
-            gender: data.gender,
-            nricPassport: data.nricPassport,
-            contactNumber: data.contactNumber,
-            instagramHandle: data.instagramHandle,
-            schoolName: data.schoolName,
-            ymMember: data.ymMember === "Yes",
-            cgLeader, // Use the same cgLeader value
-            hero: selectedHero,
-            teamId: teamId || Math.ceil(lineNumber! / 5),
-            inviteCode,
-            emergencyContactName: data.emergencyContactName,
-            emergencyContactRelationship: data.emergencyContactRelationship,
-            emergencyContactPhone: data.emergencyContactPhone,
-            emergencyContactEmail: data.emergencyContactEmail,
-            // Additional fields for religious affiliation
-            isChristian: data.isChristian,
-            eventSource: data.eventSource,
-            otherEventSource: data.otherEventSource,
-            invitedByFriend: data.invitedByFriend,
-            // Church details
-            // churchName: data.churchName,
-            // pastorName: data.pastorName,
-            // churchRole: data.churchRole,
-          }),
-        });
-
-        if (!sheetResponse.ok) {
-          console.warn(
-            "Google Sheets sync failed, but registration was successful",
-          );
-        } else {
-          console.log("Successfully synced with Google Sheets");
-        }
-      } catch (sheetError) {
-        console.warn("Google Sheets sync error:", sheetError);
-        // Continue with registration success even if sheets sync fails
-      }
-
-      // Call onSuccess if provided
       if (onSuccess) {
-        onSuccess({
-          id: responseData.data.id,
-          line_number: lineNumber,
-          group_number: groupNumber,
-          nickname: data.fullName,
-          hero_id: selectedHero,
-          team_id: teamId || Math.ceil(lineNumber! / 5),
-          full_name: data.fullName,
-          age: Number.parseInt(data.age),
-        });
+        onSuccess(responseData);
       }
-
-      return responseData; // Return the response data for successful registration
-    } catch (err) {
-      console.error("Registration error:", err);
-      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred during registration";
-      setError(errorMessage);
-      throw new Error(errorMessage); // Re-throw the error to be caught by MultiStepRegistrationForm
+      onClose();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Registration failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -300,17 +240,23 @@ export function RegistrationModal({
 
   // Show multi-step registration form
   return (
-    <MultiStepRegistrationForm
-      isOpen={isOpen}
-      onClose={handleModalClose}
-      lineNumber={lineNumber || 0}
-      teamId={teamId || Math.ceil(lineNumber! / 5)}
-      inviteCode={inviteCode}
-      selectedHero={selectedHero}
-      onSubmit={handleFormSubmit}
-      isSubmitting={isSubmitting}
-      onBackToCharacterSelection={handleBackToCharacterSelection} // New prop for going back
-      error={error}
-    />
+    <>
+      <LoadingOverlay 
+        isVisible={isConnecting} 
+        message={connectionError || "Connecting to database..."} 
+      />
+      <MultiStepRegistrationForm
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        lineNumber={lineNumber || 0}
+        teamId={teamId || Math.ceil(lineNumber! / 5)}
+        inviteCode={inviteCode}
+        selectedHero={selectedHero}
+        onSubmit={handleFormSubmit}
+        isSubmitting={isSubmitting}
+        onBackToCharacterSelection={handleBackToCharacterSelection} // New prop for going back
+        error={error}
+      />
+    </>
   );
 }

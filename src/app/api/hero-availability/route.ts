@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase";
+import { createClient, handleDatabaseError } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
 // Get hero availability for a specific team
@@ -23,10 +23,11 @@ export async function GET(request: Request) {
       .eq("team_id", teamId);
 
     if (error) {
+      const errorResponse = handleDatabaseError(error);
       console.error("Error fetching hero availability:", error);
       return NextResponse.json(
-        { error: "Failed to fetch hero availability" },
-        { status: 500 },
+        { error: errorResponse.message },
+        { status: errorResponse.status },
       );
     }
 
@@ -38,10 +39,11 @@ export async function GET(request: Request) {
 
     return NextResponse.json(heroAvailability);
   } catch (error) {
+    const errorResponse = handleDatabaseError(error);
     console.error("Error in hero availability API:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+      { error: errorResponse.message },
+      { status: errorResponse.status },
     );
   }
 }
@@ -70,19 +72,21 @@ export async function POST(request: Request) {
       .select();
 
     if (error) {
+      const errorResponse = handleDatabaseError(error);
       console.error("Error updating hero availability:", error);
       return NextResponse.json(
-        { error: "Failed to update hero availability" },
-        { status: 500 },
+        { error: errorResponse.message },
+        { status: errorResponse.status },
       );
     }
 
     return NextResponse.json(data);
   } catch (error) {
+    const errorResponse = handleDatabaseError(error);
     console.error("Error in hero availability API:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+      { error: errorResponse.message },
+      { status: errorResponse.status },
     );
   }
 }

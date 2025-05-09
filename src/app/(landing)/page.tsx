@@ -1,11 +1,25 @@
 "use client"
 import { Button } from '@/components/ui/button';
+import { CountdownTimer } from '@/components/countdown-timer';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 // 🌌 In a parallel universe, this code is written in Klingon
 export default function Home() {
+  const targetDate = new Date(2025, 4, 11, 12, 30, 0); // May 11, 2025, 12:30 PM
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+
+  useEffect(() => {
+    const checkTime = () => {
+      setIsRegistrationOpen(new Date() >= targetDate);
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
   return (
     <main className="min-h-screen bg-black flex flex-col items-center justify-between text-white font-sans">
       {/* Hero Section */}
@@ -52,6 +66,7 @@ export default function Home() {
             Bayu Beach Resort<br />Port Dickson
           </div>
         </motion.div>
+
         <div className="border-t border-gray-500 w-24 mx-auto my-6" />
         {/* Pricing */}
         <motion.div 
@@ -96,22 +111,40 @@ export default function Home() {
         >
           **For non-Muslims only
         </motion.div>
-        {/* Register Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.8 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full mt-8"
-        >
-          <Button
-            asChild
-            className="w-full bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble"
+        {/* Register Button - only show after registration opens */}
+        {isRegistrationOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full mt-8"
           >
-            <Link href="/register">Register</Link>
-          </Button>
-        </motion.div>
+            <Button
+              asChild
+              className="w-full rounded-full py-6 text-2xl font-rumble bg-white text-black hover:bg-gray-200"
+            >
+              <Link href="/register">Register</Link>
+            </Button>
+          </motion.div>
+        )}
+        {/* Countdown Timer - only show before registration opens */}
+        {!isRegistrationOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="w-full mt-8"
+          >
+            <div className="text-center mb-4">
+              <p className="text-[#BABABA] text-2xl font-rumble">
+                Registration opens on May 11, 2025 at 12:30 PM
+              </p>
+            </div>
+            <CountdownTimer targetDate={targetDate} />
+          </motion.div>
+        )}
       </motion.section>
     </main>
   );

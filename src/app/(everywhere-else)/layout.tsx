@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { SonnerProvider } from "@/components/sonner-provider";
+import { TimeRestriction } from "@/components/time-restriction";
 import "@/styles/fonts.css";
 import type { Metadata } from "next";
 
@@ -17,11 +18,11 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://ythwknd25.ymfgakl.com"),
+  metadataBase: new URL("https://ythwknd.ymfgakl.com"),
   openGraph: {
     title: "YTHWKND 2025: The Multiverse of Mystery",
     description: "When Eric Veed mysteriously vanishes, five classmates set out to investigate. Their search leads them to a strange beach where reality begins to unravel. Join the battle to save the multiverse.",
-    url: "https://ythwknd25.ymfgakl.com",
+    url: "https://ythwknd.ymfgakl.com",
     siteName: "YTHWKND 2025",
     images: [
       {
@@ -80,12 +81,14 @@ export default function RootLayout({
       <body
         className={`antialiased bg-black text-[#BABABA] min-h-screen flex flex-col`}
       >
-        <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <SonnerProvider />
+        <TimeRestriction>
+          <Navbar />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+          <SonnerProvider />
+        </TimeRestriction>
       </body>
     </html>
   );
