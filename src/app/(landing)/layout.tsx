@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import "@/styles/fonts.css";
 import { Footer } from "@/components/footer";
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "YTHWKND 2025: The Multiverse of Mystery",
@@ -84,6 +85,7 @@ export default function RootLayoutLanding({
         </main>
         <Footer />
       </body>
+      <GoogleAnalytics gaId="GTM-W5JTJM5Q" />
     </html>
   );
 }
