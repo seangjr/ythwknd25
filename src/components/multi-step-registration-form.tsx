@@ -16,7 +16,7 @@ import {
   Facebook,
   Globe,
   Instagram,
-  Link,
+  Link as LinkIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { Footer } from "./footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 // Add getHeroImagePath function
 const getHeroImagePath = (heroId: string, teamId: number) => {
@@ -1471,7 +1472,14 @@ export function MultiStepRegistrationForm({
                 whileTap={{ scale: 0.98 }}
               >
                 <Button asChild className="w-full bg-white text-black hover:bg-gray-200 rounded-full py-6 text-2xl font-rumble mb-8 cursor-pointer">
-                  <Link href="https://forms.gle/qv5ze5FUQkGZo3bd6" target="_blank" rel="noopener noreferrer">Payment &amp; Parental Consent Form</Link>
+                  <a 
+                    href="https://forms.gle/qv5ze5FUQkGZo3bd6" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:text-blue-600 underline"
+                  >
+                    Payment &amp; Parental Consent Form
+                  </a>
                 </Button>
               </motion.div>
             </motion.div>
