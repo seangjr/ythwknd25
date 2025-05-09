@@ -214,7 +214,6 @@ export function RegistrationModal({
       if (onSuccess) {
         onSuccess(responseData);
       }
-      onClose();
     } catch (error) {
       setError(error instanceof Error ? error.message : "Registration failed");
     } finally {
