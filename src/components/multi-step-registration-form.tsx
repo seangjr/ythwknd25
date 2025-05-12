@@ -388,7 +388,8 @@ export function MultiStepRegistrationForm({
     // For YM members, set default values for fields they skip
     if (data.ymMember === "Yes") {
       // YM members are already known to be Christians attending YM
-      data.isChristian = "attending_other";
+      //@ts-ignore
+      data.isChristian = "attending_ym";
       data.eventSource = "ym_services";
     }
 
