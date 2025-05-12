@@ -76,7 +76,7 @@ const formSchema = z
 
     // More Details (Religious Affiliation)
     isChristian: z
-      .enum(["attending_other", "not_attending", "no"], {
+      .enum(["attending_other", "not_attending", "no", "attending_ym"], {
         required_error: "Please select your religious affiliation",
       })
       .optional(),

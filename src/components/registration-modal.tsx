@@ -33,7 +33,7 @@ const formSchema = z
     }),
     cgLeader: z.string().optional(),
     isChristian: z
-      .enum(["attending_other", "not_attending", "no"], {
+      .enum(["attending_other", "not_attending", "no", "attending_ym"], {
         required_error: "Please select your religious affiliation",
       })
       .optional(),
