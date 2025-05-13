@@ -76,18 +76,23 @@ export default function Home() {
           className="flex flex-col gap-4 text-center w-full"
         >
           {[
-            { price: "RM250", label1: "NEW", label2: "FRIENDS" },
+            { price: "RM550", label1: "DOUBLE", label2: "TICKET*" },
             { price: "RM300", label1: "YM", label2: "MEMBER" },
-            { price: "RM550", label1: "DOUBLE", label2: "TICKET*" }
+            { price: "RM250", originalPrice: "RM300", label1: "NEW", label2: "FRIENDS" },
           ].map((item, index) => (
             <motion.div
-              key={item.price}
+              key={item.label1 + item.label2} // Use a more stable key if price can change
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 1 + index * 0.2 }}
               className="flex items-center justify-center gap-2"
             >
-              <span className="text-4xl md:text-5xl font-rumble text-[#bababa]">{item.price}</span>
+              <span className="text-4xl md:text-5xl font-rumble text-[#bababa]">
+                {item.originalPrice && (
+                  <s className="text-[#bababa] mr-2">{item.originalPrice}</s>
+                )}
+                {item.price}
+              </span>
               <div className="flex flex-col text-start leading-none">
                 <span className="text-lg text-[#bababa] leading-none">{item.label1}</span>
                 <span className="text-lg text-[#bababa] leading-none">{item.label2}</span>
