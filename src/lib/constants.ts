@@ -74,6 +74,7 @@ export const CONSTANTS = { SITE_TITLE: "YTHWKND",
     { id: 18, name: "The Quest Five", color: "bg-team-18", code: "U018" },
     { id: 19, name: "The Future Five", color: "bg-team-19", code: "U019" },
     { id: 20, name: "The Steampunk Five", color: "bg-team-20", code: "U020" },
+    { id: 21, name: "The Cars Five", color: "bg-team-21", code: "U021" },
   ],
 
   HERO_IMAGE_PATHS: [
@@ -401,6 +402,11 @@ export const CONSTANTS = { SITE_TITLE: "YTHWKND",
       path: "/hundred/020_Steampunk-Five_04-Charlie.png",
     },
     { teamId: 20, hero: "Kai", path: "/hundred/020_Steampunk-Five_05-Kai.png" },
+    { teamId: 21, hero: "Alex", path: "/hundred/021_Cars-Five_01-Alex.png" },
+    { teamId: 21, hero: "Suzzy", path: "/hundred/021_Cars-Five_02-Suzzy.png" },
+    { teamId: 21, hero: "Charlotte", path: "/hundred/021_Cars-Five_03-Charlotte.png" },
+    { teamId: 21, hero: "Charlie", path: "/hundred/021_Cars-Five_04-Charlie.png" },
+    { teamId: 21, hero: "Kai", path: "/hundred/021_Cars-Five_05-Kai.png" },
   ],
   // Updated CG Leaders based on the design
   CG_LEADERS: [
